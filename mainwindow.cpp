@@ -19,6 +19,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(listWidget,SIGNAL(currentRowChanged(int)),this,SLOT(doneButtonEnableFunc()));
     connect(listWidget,SIGNAL(currentRowChanged(int)),this,SLOT(dateShow()));
     initToDoList();
+
+    this->setWindowFlags(Qt::WindowStaysOnTopHint);
 }
 
 void MainWindow::addList(){
