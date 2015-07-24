@@ -26,7 +26,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     void initToDoList();
     void closeEvent( QCloseEvent * event );
-    int findMemoItemIndex(QString s);
+    int findMemoItemIndex(QString s, int row);
     void showDone();
     void showTodo();
 private slots:

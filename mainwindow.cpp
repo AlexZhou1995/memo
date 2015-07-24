@@ -46,8 +46,9 @@ void MainWindow::deleteList(){
     }
 
     QString contant = listWidget->currentItem()->text();
+    qDebug()<<"crnt row:"<<listWidget->currentRow()<<endl;
 
-    int index = findMemoItemIndex(contant);
+    int index = findMemoItemIndex(contant,listWidget->currentRow());
     memoItem[index].done=1;
     QDateTime time = QDateTime::currentDateTime();
     QString str = time.toString("yyyy-MM-dd hh:mm:ss ddd");
@@ -139,7 +140,7 @@ void MainWindow::dateShow(){
         dateLabel->setText("");
         return ;
     }
-    int index = findMemoItemIndex(listWidget->currentItem()->text());
+    int index = findMemoItemIndex(listWidget->currentItem()->text(),listWidget->currentRow());
     if (index>=0)
         dateLabel->setText(memoItem[index].begintime);
 }
@@ -150,9 +151,10 @@ void MainWindow::closeEvent( QCloseEvent * event )
     event->accept();
 }
 
-inline int MainWindow::findMemoItemIndex(QString s){
+inline int MainWindow::findMemoItemIndex(QString s,int row){
     for(int i=0; i<memoItem.count(); i++){
-        if (memoItem[i].contanct == s)
+        qDebug()<<memoItem[i].contanct<<"  "<<memoItem[i].row<<endl;
+        if (memoItem[i].contanct == s && memoItem[i].row == row)
             return i;
     }
     return -1;
@@ -173,8 +175,12 @@ void MainWindow::showDone(){
 }
 void MainWindow::showTodo(){
     listWidget->clear();
+    int count = 0;
     for(int i=0; i<memoItem.count(); i++){
-        if (memoItem[i].done==0)
+        if (memoItem[i].done==0){
             listWidget->addItem(memoItem[i].contanct);
+            memoItem[i].row = count;
+            count++;
+        }
     }
 }
